@@ -1,0 +1,70 @@
+<!--
+    File: index.html
+    GUI Assignment: HW3 Multiplication Table
+    Shawn Jordan, UMass Lowell Computer Science, shawn_jordan@student.uml.edu
+    Copyright (c) 2023 by Shawn. 
+    All rights reserved.
+    updated by SJ on Nov 14, 2023 at 2:59 PM
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <title>Multiplication Table</title>
+        <!-- stylesheets -->
+        <link rel="stylesheet" href="./css/style.css">
+        
+    </head>
+    <body>
+        <!-- User prompt/instructions -->
+        <h2>Please enter the following table ranges to create a multiplication table</h2>
+        <!-- input form -->
+        <form id="multTableForm">
+            <!-- User input for rows (start and end) -->
+            <label for="startRow">Enter number for the start of the row (between -50 and 50):</label>
+            <br> <!-- line break -->
+            
+            <input type="number" id="startRow" name="startRow" min="1" max="50" required>
+            <!-- inline text for error label that produces error message -->
+            <span id="startRowError" class="error"></span>
+            <br> <!-- line break -->
+            
+            <label for="endRow">Enter number for the end of the row (must be greater than starting row number and up to 50):</label>
+            <br> <!-- line break -->
+            
+            <input type="number" id="endRow" name="endRow" min="-50" max="50" required>
+            <!-- inline text for error label that produces error message -->
+            <span id="endRowError" class="error"></span>
+            <br> <!-- line break -->
+            
+            <!-- User input for columns (start and end) -->
+            <label for="startCol">Enter number for the start of the column (between -50 and 50):</label>
+            <br> <!-- line break -->
+
+            <input type="number" id="startCol" name="startCol" min="-50" max="50" required>
+            <!-- inline text for error label that produces error message -->
+            <span id="startColError" class="error"></span>
+            <br> <!-- line break -->
+            
+            <label for="endCol">Enter number for the end of the column (must be greater than starting column number and up to 50):</label>
+            <br> <!-- line break -->
+            
+            <input type="number" id="endCol" name="endCol" min="1" max="50" required>
+            <!-- inline text for error label that produces error message -->
+            <span id="endColError" class="error"></span>
+            <br> <!-- line break -->
+            
+            <button type="button" id="generateTable">Generate Table</button>
+               
+        </form>
+        
+        <!-- container for dynamically generated table -->
+        <div id="tableContainer"></div>
+        
+        <!-- the script my cat totally coded with his tail in his sleep -->
+        <script src="./javascript/tableScript.js"></script>
+    </body>
+</html>
