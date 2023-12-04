@@ -80,7 +80,6 @@ $(document).ready(function() {
 
     // call function that creates the table in the new tab
 
-
     // Jquery for generate button to create table
     $("#generateTable").click(function() {
         createTableTextboxChange();
