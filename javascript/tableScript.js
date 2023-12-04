@@ -5,60 +5,237 @@
     Copyright (c) 2023 by Shawn. 
     All rights reserved.
     Modified Assignment by Shawn Jordan
-    updated by SJ on Nov 14, 2023 at 2:59 PM 
+    updated by SJ on Dec 3, 2023 at 2:59 PM 
 */
 
-// function for generate button to create table
-function generateTable() {
+// Jquery document ready function
+$(document).ready(function() {
+    
+    // jQuery sliders for the input fields
+    // start row
+    $("#startRowSlider").slider({
+        min: -50,
+        max: 50,
+        step: 1,
+        // slider updates startRow text value when slider is moved
+        slide: function(event, ui) {
+            $("#startRow").val(ui.value);
+            // test for slider value change
+            console.log(ui.value)
+        }, 
+        // when the slider's value is changed, update the table
+        change: function(event, ui) {
+            // update table dynamically when slider is moved
+            createTableSliderChange();
+        }
+    });
+    // end row
+    $("#endRowSlider").slider({
+        min: -50,
+        max: 50,
+        step: 1,
+        slide: function(event, ui) {
+            $("#endRow").val(ui.value);
+        },
+        // when the slider's value is changed, update the table
+        change: function(event, ui) {
+            // update table dynamically when slider is moved
+            createTableSliderChange();
+        }
+    });
+    // start col
+    $("#startColSlider").slider({
+        min: -50,
+        max: 50,
+        step: 1,
+        slide: function(event, ui) {
+            $("#startCol").val(ui.value);
+        },
+        // when the slider's value is changed, update the table
+        change: function(event, ui) {
+            // update table dynamically when slider is moved
+            createTableSliderChange();
+        }
+    });
+    // end col
+    $("#endColSlider").slider({
+        min: -50,
+        max: 50,
+        step: 1,
+        slide: function(event, ui) {
+            $("#endCol").val(ui.value);
+        },
+        // when the slider's value is changed, update the table
+        change: function(event, ui) {
+            // update table dynamically when slider is moved
+            createTableSliderChange();
+        }
+    });
+
+    // initalize tabs for the table
+    $("#tabs").tabs();
+    
+    // generate unique id for each tab
+    var tabCounter = 1;
+
+    // call function that creates the table in the new tab
+
+
+    // Jquery for generate button to create table
+    $("#generateTable").click(function() {
+        createTableTextboxChange();
+    });
+});
+
+// function to create table
+function createTableTextboxChange () {
+    // when input value is changed, recreate table and clear error messages
+    $("#startRow, #endRow, #startCol, #endCol").on("input", function () {
+        
+        // Jquery to clear the error messages when the input textbox's text is changed using listeners
+        $(".error").text('');
+
+        // get values from form
+        var startRow = parseInt($("#startRow").val()); // row min
+        var endRow = parseInt($("#endRow").val()); // row max
+        var startCol = parseInt($("#startCol").val()); // col min
+        var endCol = parseInt($("#endCol").val()); // col max
+
+        // check if any input is not valid, then display error messages and return
+        // using math.abs to check if the values are within range this time
+        if (!$.isNumeric(startRow) || !$.isNumeric(endRow) || !$.isNumeric(startCol) || !$.isNumeric(endCol) ||
+        startRow > endRow || Math.abs(startRow) > 50 || Math.abs(endRow) > 50 ||
+        startCol > endCol || Math.abs(startCol) > 50 || Math.abs(endCol) > 50) {
+
+            // check which inputs are not a number and display error message then return
+            if(!$.isNumeric(startRow)) {
+                $("#startRowError").text('Number entry must not be empty');
+            }
+            if(!$.isNumeric(endRow)) {
+                $("#endRowError").text('Number entry must not be empty');
+            }
+            if(!$.isNumeric(startCol)) {
+                $("#startColError").text('Number entry must not be empty');
+            }
+            if(!$.isNumeric(endCol)) {
+                $("#endColError").text('Number entry must not be empty');
+            }
+
+            // check if row values are valid with jquery
+            if (startRow > endRow) {
+                $("#startRowError").text('Starting number cannot be more than ending number');
+            }
+
+            // check which inputs are not within range
+            if (Math.abs(startRow) > 50) {
+                $("#startRowError").text('Starting and ending numbers must be between -50 and 50');
+            }
+            if (Math.abs(endRow) > 50) {
+                $("#endRowError").text('Starting and ending numbers must be between -50 and 50');
+            }
+
+            // check if col values are valid
+            if (startCol > endCol) {
+                $("#startColError").text('Starting number cannot be more than ending number');
+            }
+            // check if col values are in range
+            if (Math.abs(startCol) > 50) {
+                $("#startColError").text('Starting and ending numbers must be between -50 and 50');
+            }
+            if (Math.abs(endCol) > 50) {
+                $("#endColError").text('Starting and ending numbers must be between -50 and 50');
+            }
+
+            return;
+        }
+
+        // generate table and display
+        var table = '<table class="table-style"><thead><tr><th></th>'; // create table with css and header to start the table
+        
+        // loop to fill the table columns
+        for (var i = startCol; i <= endCol; i++) {
+            table += '<th>' + i + '</th>'; // add col header
+        }
+
+        table += '</tr></thead><tbody>'; // add to the body of the table
+
+        // loop to do the multiplication and fill the table
+        for (var i = startRow; i <= endRow; i++) {
+            table += '<tr><th>'+ i + '</th>'; // add row
+            for (var j = startCol; j <= endCol; j++) {
+                table += '<td>' + i * j + '</td>'; // add col
+            }
+            table += '</tr>'; // end row
+        }
+
+        table += '</tbody></table>'; // end table
+        
+        // check the table for contents
+        console.log('tableContents',table);
+
+        // display the new table to the screen
+        $("#tableContainer").html(table);
+
+        // check to see if table is generated via console
+        console.log("Table should be generated");      
+
+    });    
+}
+
+// function to create table for slider
+function createTableSliderChange(){
+    // Jquery to clear the error messages when the input textbox's text is changed using listeners
+    $(".error").text('');
+
     // get values from form
-    var startRow = parseInt(document.getElementById("startRow").value); // row min
-    var endRow = parseInt(document.getElementById("endRow").value); // row max
-    var startCol = parseInt(document.getElementById("startCol").value); // col min
-    var endCol = parseInt(document.getElementById("endCol").value); // col max
+    var startRow = parseInt($("#startRow").val()); // row min
+    var endRow = parseInt($("#endRow").val()); // row max
+    var startCol = parseInt($("#startCol").val()); // col min
+    var endCol = parseInt($("#endCol").val()); // col max
 
     // check if any input is not valid, then display error messages and return
-    if (isNaN(startRow) || isNaN(endRow) || isNaN(startCol) || isNaN(endCol) || startRow > endRow
-        || startRow < -50 || startRow > 50 || endRow < -50 || endRow > 50 || startCol > endCol || 
-        startCol < -50 || startCol > 50 || endCol < -50 || endCol > 50) {
+    // using math.abs to check if the values are within range this time
+    if (!$.isNumeric(startRow) || !$.isNumeric(endRow) || !$.isNumeric(startCol) || !$.isNumeric(endCol) ||
+    startRow > endRow || Math.abs(startRow) > 50 || Math.abs(endRow) > 50 ||
+    startCol > endCol || Math.abs(startCol) > 50 || Math.abs(endCol) > 50) {
 
         // check which inputs are not a number and display error message then return
-        if(isNaN(startRow)) {
-        document.getElementById('startRowError').textContent = 'number entry must not be empty';
+        if(!$.isNumeric(startRow)) {
+            $("#startRowError").text('Number entry must not be empty');
         }
-        if(isNaN(startCol)) {
-        document.getElementById('startColError').textContent = 'number entry must not be empty';
+        if(!$.isNumeric(endRow)) {
+            $("#endRowError").text('Number entry must not be empty');
         }
-        if(isNaN(endRow)) {
-        document.getElementById('endRowError').textContent = 'number entry must not be empty';
+        if(!$.isNumeric(startCol)) {
+            $("#startColError").text('Number entry must not be empty');
         }
-        if(isNaN(endCol)) {
-        document.getElementById('endColError').textContent = 'number entry must not be empty';
+        if(!$.isNumeric(endCol)) {
+            $("#endColError").text('Number entry must not be empty');
         }
 
-        // check if row values are valid
+        // check if row values are valid with jquery
         if (startRow > endRow) {
-            document.getElementById('startRowError').textContent = 'Starting number cannot be more than ending number';
+            $("#startRowError").text('Starting number cannot be more than ending number');
         }
 
         // check which inputs are not within range
-        if (startRow < -50 || startRow > 50) {
-            document.getElementById('startRowError').textContent = 'Starting and ending numbers must be between -50 and 50';
+        if (Math.abs(startRow) > 50) {
+            $("#startRowError").text('Starting and ending numbers must be between -50 and 50');
         }
-        if (endRow < -50 || endRow > 50) {
-        document.getElementById('endRowError').textContent = 'Starting and ending numbers must be between -50 and 50';
+        if (Math.abs(endRow) > 50) {
+            $("#endRowError").text('Starting and ending numbers must be between -50 and 50');
         }
 
         // check if col values are valid
         if (startCol > endCol) {
-            document.getElementById('startColError').textContent = 'Starting number cannot be more than ending number';
+            $("#startColError").text('Starting number cannot be more than ending number');
         }
-
         // check if col values are in range
-        if (startCol < -50 || startCol > 50) {
-            document.getElementById('startColError').textContent = 'Starting and ending numbers must be between -50 and 50';
+        if (Math.abs(startCol) > 50) {
+            $("#startColError").text('Starting and ending numbers must be between -50 and 50');
         }
-        if (endCol < -50 || endCol > 50) {
-        document.getElementById('endColError').textContent = 'Starting and ending numbers must be between -50 and 50';
+        if (Math.abs(endCol) > 50) {
+            $("#endColError").text('Starting and ending numbers must be between -50 and 50');
         }
 
         return;
@@ -89,40 +266,8 @@ function generateTable() {
     console.log('tableContents',table);
 
     // display the new table to the screen
-    document.getElementById("tableContainer").innerHTML = table;
+    $("#tableContainer").html(table);
 
     // check to see if table is generated via console
     console.log("Table should be generated");
-}   
-
-    // add event listener to generate button and have it call the generateTable function
-    document.getElementById("generateTable").addEventListener("click", generateTable);
-
-    /* Clear the error messages when the input textbox's text is changed using listeners */
-    document.getElementById('startRow').addEventListener('input', function() {
-        document.getElementById('startRowError').textContent = '';
-        document.getElementById('startColError').textContent = '';
-        document.getElementById('endRowError').textContent = '';
-        document.getElementById('endColError').textContent = '';  
-    });
-    /* Clear the error messages when the input textbox's text is changed using listeners */
-    document.getElementById('endRow').addEventListener('input', function() {
-        document.getElementById('startRowError').textContent = '';
-        document.getElementById('startColError').textContent = ''; 
-        document.getElementById('endRowError').textContent = '';
-        document.getElementById('endColError').textContent = '';
-    });
-    /* Clear the error messages when the input textbox's text is changed using listeners */
-    document.getElementById('startCol').addEventListener('input', function() {
-        document.getElementById('startRowError').textContent = '';
-        document.getElementById('startColError').textContent = '';
-        document.getElementById('endRowError').textContent = '';
-        document.getElementById('endColError').textContent = '';
-    });
-    /* Clear the error messages when the input textbox's text is changed using listeners */
-    document.getElementById('endCol').addEventListener('input', function() {
-        document.getElementById('startRowError').textContent = '';
-        document.getElementById('startColError').textContent = '';
-        document.getElementById('endRowError').textContent = '';
-        document.getElementById('endColError').textContent = '';
-    });
+}

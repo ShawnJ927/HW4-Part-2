@@ -4,7 +4,7 @@
     Shawn Jordan, UMass Lowell Computer Science, shawn_jordan@student.uml.edu
     Copyright (c) 2023 by Shawn. 
     All rights reserved.
-    updated by SJ on Nov 14, 2023 at 2:59 PM
+    updated by SJ on Nov 28, 2023 at 2:59 PM
 -->
 
 <!DOCTYPE html>
@@ -16,7 +16,8 @@
         <title>Multiplication Table</title>
         <!-- stylesheets -->
         <link rel="stylesheet" href="./css/style.css">
-        
+        <!-- jQuery stylesheet -->
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
     </head>
     <body>
         <!-- User prompt/instructions -->
@@ -26,8 +27,12 @@
             <!-- User input for rows (start and end) -->
             <label for="startRow">Enter number for the start of the row (between -50 and 50):</label>
             <br> <!-- line break -->
+
+            <!-- jquery div slider for start row input box -->
+            <div id="startRowSlider"></div>
             
-            <input type="number" id="startRow" name="startRow" min="1" max="50" required>
+            <!-- user input for start row -->
+            <input type="number" id="startRow" name="startRow" min="-50" max="50" required>
             <!-- inline text for error label that produces error message -->
             <span id="startRowError" class="error"></span>
             <br> <!-- line break -->
@@ -35,14 +40,21 @@
             <label for="endRow">Enter number for the end of the row (must be greater than starting row number and up to 50):</label>
             <br> <!-- line break -->
             
+            <!-- jquery div slider for end row input box -->
+            <div id="endRowSlider"></div>
+
             <input type="number" id="endRow" name="endRow" min="-50" max="50" required>
             <!-- inline text for error label that produces error message -->
             <span id="endRowError" class="error"></span>
             <br> <!-- line break -->
             
+
             <!-- User input for columns (start and end) -->
             <label for="startCol">Enter number for the start of the column (between -50 and 50):</label>
             <br> <!-- line break -->
+
+            <!-- jquery div slider for start column input box -->
+            <div id="startColSlider"></div>
 
             <input type="number" id="startCol" name="startCol" min="-50" max="50" required>
             <!-- inline text for error label that produces error message -->
@@ -52,6 +64,9 @@
             <label for="endCol">Enter number for the end of the column (must be greater than starting column number and up to 50):</label>
             <br> <!-- line break -->
             
+            <!-- jquery div slider for end column input box -->
+            <div id="endColSlider"></div>
+
             <input type="number" id="endCol" name="endCol" min="1" max="50" required>
             <!-- inline text for error label that produces error message -->
             <span id="endColError" class="error"></span>
@@ -63,8 +78,20 @@
         
         <!-- container for dynamically generated table -->
         <div id="tableContainer"></div>
+
+        <!-- container for the tabs -->
+        <div id="tabs"></div>
         
-        <!-- the script my cat totally coded with his tail in his sleep -->
+        <!-- jQuery from CDN so I don't have to download it-->
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+        <!-- jQuery UI plugin from CDN like above -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+        <!-- jQuery Validation Plugin from CDN like above -->
+        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.20.0/dist/jquery.validate.min.js"></script>
+
+        <!-- the script with JQuery validation and table generation -->
         <script src="./javascript/tableScript.js"></script>
     </body>
 </html>

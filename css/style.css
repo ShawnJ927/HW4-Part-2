@@ -42,6 +42,27 @@ input {
     width: 50%;
 }
 
+/* format the sliders */
+#startRowSlider { 
+    margin-top:10px;
+    margin-bottom: 10px;
+}
+
+#endRowSlider { 
+    margin-top:10px;
+    margin-bottom: 10px;
+}
+
+#startColSlider { 
+    margin-top:10px;
+    margin-bottom: 10px;
+}
+
+#endColSlider { 
+    margin-top:10px;
+    margin-bottom: 10px;
+}
+
 /* styling and formatting for the generated table */
 .table-style {
     border-collapse: collapse;
